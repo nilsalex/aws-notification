@@ -11,5 +11,22 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 3.63"
     }
+    archive = {}
   }
+}
+
+variable "phone_number" {
+  type = string
+}
+
+module "notification" {
+  source = "./sns"
+
+  phone_number = var.phone_number
+}
+
+module "lambda" {
+  source = "./lambda"
+
+  sns_topic_arn = module.notification.sns_topic_arn
 }

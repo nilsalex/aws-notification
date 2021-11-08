@@ -15,14 +15,14 @@ terraform {
   }
 }
 
-variable "phone_number" {
+variable "email_address" {
   type = string
 }
 
 module "notification" {
   source = "./sns"
 
-  phone_number = var.phone_number
+  email_address = var.email_address
 }
 
 module "lambda" {

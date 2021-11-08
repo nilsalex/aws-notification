@@ -1,3 +1,3 @@
-variable "phone_number" {
+variable "email_address" {
   type = string
 }

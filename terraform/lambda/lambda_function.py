@@ -1,13 +1,39 @@
 import boto3
+import urllib3
 import os
 
 def lambda_handler(event, context):
+    web_page_url = event['webPageUrl']
     topic_arn = os.getenv('SNS_TOPIC_ARN')
-    subject = 'Notification'
-    message = 'Hello, world!'
 
-    # client = boto3.client('sns')
-    # response = client.publish(TopicArn=topic_arn,Subject=subject,Message=message)
+    print('web_page_url: ' + web_page_url)
+    print('topic_arn: ' + topic_arn)
 
-    # print(response)
+    http = urllib3.PoolManager()
+    web_page = http.request('GET', web_page_url)
+    content = web_page.data.decode('utf-8')
+
+    if 'value="buchen"' in content:
+        print('Web page contains "buchen" button!')
+
+        subject = 'Freier Platz!'
+        message = 'Ein freier Platz wurde gefunden! Register now:\n' + web_page_url
+
+        client = boto3.client('sns')
+        response = client.publish(TopicArn=topic_arn,Subject=subject,Message=message)
+    else:
+        print('Web page does not contain a "buchen" button.')
+
+        if not 'value="Warteliste"' in content:
+            print('Web page does not contain a "Warteliste" button.')
+            print('Logging web page.')
+            print(content)
+
+            subject = 'Something went wrong.'
+            message = 'Something went wrong, have a look at the invocation. Link to the page:\n' + web_page_url
+
+            client = boto3.client('sns')
+            response = client.publish(TopicArn=topic_arn,Subject=subject,Message=message)
+        else:
+            print('Web page contains a "Warteliste" button. Everything seems to work.')
 

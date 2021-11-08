@@ -6,8 +6,8 @@ def lambda_handler(event, context):
     subject = 'Notification'
     message = 'Hello, world!'
 
-    client = boto3.client('sns')
-    response = client.publish(TopicArn=topic_arn,Subject=subject,Message=message)
+    # client = boto3.client('sns')
+    # response = client.publish(TopicArn=topic_arn,Subject=subject,Message=message)
 
-    print(response)
+    # print(response)
 

@@ -30,3 +30,9 @@ module "lambda" {
 
   sns_topic_arn = module.notification.sns_topic_arn
 }
+
+module "trigger" {
+  source = "./eventbridge"
+
+  lambda_function_name = module.lambda.lambda_function_name
+}

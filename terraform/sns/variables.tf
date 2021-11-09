@@ -1,3 +1,3 @@
-variable "email_address" {
-  type = string
+variable "email_addresses" {
+  type = list(string)
 }

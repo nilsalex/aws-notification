@@ -24,8 +24,11 @@ def lambda_handler(event, context):
     else:
         print('Web page does not contain a "buchen" button.')
 
-        if not 'value="Warteliste"' in content:
-            print('Web page does not contain a "Warteliste" button.')
+        contains_warteliste = 'value="Warteliste"' in content
+        contains_ausgebucht = 'value="ausgebucht"' in content
+
+        if not (contains_warteliste or contains_ausgebucht):
+            print('Web page does not contain a "Warteliste" or "ausgebucht" button.')
             print('Logging web page.')
             print(content)
 
@@ -35,5 +38,5 @@ def lambda_handler(event, context):
             client = boto3.client('sns')
             response = client.publish(TopicArn=topic_arn,Subject=subject,Message=message)
         else:
-            print('Web page contains a "Warteliste" button. Everything seems to work.')
+            print('Web page contains a "Warteliste" or "ausgebucht" button. Everything seems to work.')
 

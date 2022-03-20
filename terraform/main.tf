@@ -38,6 +38,8 @@ module "trigger_volleyball" {
   trigger_rule         = "rate(1 minute)"
   trigger_url          = "https://www.anmeldung.sport.uni-erlangen.de/hsp/sportarten/aktueller_zeitraum_0/_Volleyball.html"
   lambda_function_name = module.lambda.lambda_function_name
+
+  depends_on = [module.lambda]
 }
 
 # module "trigger_fitness" {

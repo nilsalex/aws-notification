@@ -2,6 +2,8 @@ import boto3
 import urllib3
 import os
 
+
+# noinspection PyUnusedLocal
 def lambda_handler(event, context):
     web_page_url = event['webPageUrl']
     topic_arn = os.getenv('SNS_TOPIC_ARN')
@@ -20,7 +22,7 @@ def lambda_handler(event, context):
         message = 'Ein freier Platz wurde gefunden! Register now:\n' + web_page_url
 
         client = boto3.client('sns')
-        response = client.publish(TopicArn=topic_arn,Subject=subject,Message=message)
+        client.publish(TopicArn=topic_arn, Subject=subject, Message=message)
     else:
         print('Web page does not contain a "buchen" button.')
 
@@ -36,7 +38,6 @@ def lambda_handler(event, context):
             message = 'Something went wrong, have a look at the invocation. Link to the page:\n' + web_page_url
 
             client = boto3.client('sns')
-            response = client.publish(TopicArn=topic_arn,Subject=subject,Message=message)
+            client.publish(TopicArn=topic_arn, Subject=subject, Message=message)
         else:
             print('Web page contains a "Warteliste" or "ausgebucht" button. Everything seems to work.')
-

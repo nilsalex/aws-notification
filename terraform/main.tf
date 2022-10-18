@@ -34,8 +34,9 @@ module "table" {
 module "lambda" {
   source = "./lambda"
 
-  sns_topic_arn      = module.notification.sns_topic_arn
-  dynamodb_table_arn = module.table.dynamodb_table_arn
+  sns_topic_arn       = module.notification.sns_topic_arn
+  dynamodb_table_arn  = module.table.dynamodb_table_arn
+  dynamodb_table_name = module.table.dynamodb_table_name
 }
 
 module "trigger_volleyball" {
@@ -51,7 +52,7 @@ module "trigger_volleyball" {
 
 # module "trigger_fitness" {
 #   source = "./trigger"
-# 
+#
 #   trigger_name         = "trigger_fitness"
 #   trigger_rule         = "rate(2 hours)"
 #   trigger_url          = "https://www.anmeldung.sport.uni-erlangen.de/hsp/sportarten/aktueller_zeitraum_0/_Fitnessstudio___Gym.html"

@@ -10,7 +10,8 @@ resource "aws_lambda_function" "notification_lambda" {
 
   environment {
     variables = {
-      SNS_TOPIC_ARN = var.sns_topic_arn
+      SNS_TOPIC_ARN   = var.sns_topic_arn
+      LOCK_TABLE_NAME = var.dynamodb_table_name
     }
   }
 }

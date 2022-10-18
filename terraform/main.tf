@@ -25,10 +25,17 @@ module "notification" {
   email_addresses = var.email_addresses
 }
 
+module "table" {
+  source = "./dynamodb"
+
+  table_name = "notification-lambda-state-table"
+}
+
 module "lambda" {
   source = "./lambda"
 
-  sns_topic_arn = module.notification.sns_topic_arn
+  sns_topic_arn      = module.notification.sns_topic_arn
+  dynamodb_table_arn = module.table.dynamodb_table_arn
 }
 
 module "trigger_volleyball" {

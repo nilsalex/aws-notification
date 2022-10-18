@@ -22,10 +22,29 @@ data "aws_iam_policy_document" "lambda_policy" {
       "logs:PutLogEvents",
     ]
     resources = ["arn:aws:logs:*:*:*"]
+    condition {
+      test     = "ArnEquals"
+      variable = "lambda:SourceFunctionArn"
+      values   = [aws_lambda_function.notification_lambda.arn]
+    }
   }
   statement {
     actions   = ["sns:Publish"]
     resources = [var.sns_topic_arn]
+    condition {
+      test     = "ArnEquals"
+      variable = "lambda:SourceFunctionArn"
+      values   = [aws_lambda_function.notification_lambda.arn]
+    }
+  }
+  statement {
+    actions   = ["dynamodb:GetItem", "dynamodb:PutItem", "dynamodb:UpdateItem"]
+    resources = [var.dynamodb_table_arn]
+    condition {
+      test     = "ArnEquals"
+      variable = "lambda:SourceFunctionArn"
+      values   = [aws_lambda_function.notification_lambda.arn]
+    }
   }
 }
 

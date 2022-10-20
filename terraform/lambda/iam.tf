@@ -17,11 +17,10 @@ resource "aws_iam_role" "lambda_execution_role" {
 data "aws_iam_policy_document" "lambda_policy" {
   statement {
     actions = [
-      "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents",
     ]
-    resources = ["arn:aws:logs:*:*:*"]
+    resources = ["${aws_cloudwatch_log_group.notification_lambda.arn}:*"]
     condition {
       test     = "ArnEquals"
       variable = "lambda:SourceFunctionArn"

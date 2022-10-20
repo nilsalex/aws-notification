@@ -50,11 +50,11 @@ module "trigger_volleyball" {
   depends_on = [module.lambda]
 }
 
-# module "trigger_fitness" {
-#   source = "./trigger"
-#
-#   trigger_name         = "trigger_fitness"
-#   trigger_rule         = "rate(2 hours)"
-#   trigger_url          = "https://www.anmeldung.sport.uni-erlangen.de/hsp/sportarten/aktueller_zeitraum_0/_Fitnessstudio___Gym.html"
-#   lambda_function_name = module.lambda.lambda_function_name
-# }
+module "trigger_fitness" {
+  source = "./trigger"
+
+  trigger_name         = "trigger_fitness"
+  trigger_rule         = "rate(10 minutes)"
+  trigger_url          = "https://www.anmeldung.sport.uni-erlangen.de/hsp/sportarten/aktueller_zeitraum_0/_Fitnessstudio___Gym.html"
+  lambda_function_name = module.lambda.lambda_function_name
+}

@@ -30,6 +30,8 @@ def lambda_handler(event: any, context: any):
         message = 'Ein freier Platz wurde gefunden! Register now:\n' + web_page_url
         notify(topic_arn, subject, message)
 
+        print('Notification sent.')
+
         set_lock(lock_table_name, web_page_url, SUCCESS_LOCK_TYPE, timedelta(hours=2))
     else:
         print('Web page does not contain a "buchen" button.')
@@ -49,6 +51,8 @@ def lambda_handler(event: any, context: any):
             subject = 'Something went wrong.'
             message = 'Something went wrong, have a look at the invocation. Link to the page:\n' + web_page_url
             notify(topic_arn, subject, message)
+
+            print('Notification sent.')
 
             set_lock(lock_table_name, web_page_url, ERROR_LOCK_TYPE, timedelta(hours=2))
         else:
